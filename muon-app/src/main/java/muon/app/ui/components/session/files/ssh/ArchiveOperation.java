@@ -59,7 +59,7 @@ public class ArchiveOperation {
 		return null;
 	}
 
-	private boolean isSingleArchive(String archivePath) {
+	boolean isSingleArchive(String archivePath) {
 		archivePath = archivePath.toLowerCase(Locale.ENGLISH);
 		for (String key : extractCommands.keySet()) {
 			if (archivePath.endsWith(key) && (key.equals(".xz")
@@ -74,7 +74,7 @@ public class ArchiveOperation {
 		return false;
 	}
 
-	private String getArchiveFileName(String archivePath) {
+	String getArchiveFileName(String archivePath) {
 		String path = archivePath.toLowerCase(Locale.ENGLISH);
 		if (path.endsWith(".gz") || path.endsWith(".xz")) {
 			return archivePath.substring(0, archivePath.length() - 3);

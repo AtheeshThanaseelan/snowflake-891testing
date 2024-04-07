@@ -12,6 +12,9 @@ import static org.junit.Assert.*;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+
+import java.io.File;
+
 public class FileTransferTest {
 
     @Mock
@@ -22,28 +25,57 @@ public class FileTransferTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    // Testing: copy a temporary file into a temporary directory, make sure it copied correctly
+    public void copyFileSetup() throws Exception{
+        //Create Test Directory and File
+        new File("srctestdirectory").mkdirs();
+        new File("srctestdirectory/filename.txt").createNewFile();
 
-    @Test
-    public  void testFileOps() throws  Exception{
+        //Create destination directory
+        new File("desttestdirectory").mkdirs();
 
+    }
+
+    public void cleanTestDirs(){
+        String dirs[] = {"srctestdirectory","desttestdirectory"};
+        for(int i=0; i<dirs.length;i++){
+            File index = new File(dirs[i]);
+            String[]entries = index.list();
+            for(String s: entries){
+                File currentFile = new File(index.getPath(),s);
+                currentFile.delete();
+            }
+            index.delete();
+        }
+    }
+
+    public boolean checkFileExists(String path){
+        File f = new File(path);
+        if(f.exists() && !f.isDirectory()) {
+            return true;
+        }else {
+            return false;
+        }
     }
 
     @Test
     public void testTransfer() throws  Exception {
+        copyFileSetup();
+
         FileSystem sourceFs = new LocalFileSystem();
         FileSystem targetFs = new LocalFileSystem();
-        FileInfo fileInfo = new FileInfo("test.txt", "/home/person/test.txt", 3, FileType.File, 2, 0, "","", 1, "", false);
+        FileInfo fileInfo = new FileInfo("filename.txt", "srctestdirectory/filename.txt", 0, FileType.File,
+                2, 0, "","", 1, "", false);
         FileInfo[] files = new FileInfo[1];
         files[0] = fileInfo;
-        String targetFolder = "/home/person/Documents";
-        FileTransfer.ConflictAction defaultConflictAction = FileTransfer.ConflictAction.Skip;//null;
+        String targetFolder = "desttestdirectory";
+
+        FileTransfer.ConflictAction defaultConflictAction = FileTransfer.ConflictAction.Skip;;
         FileTransfer ft = new FileTransfer(sourceFs, targetFs, files, targetFolder,callback, defaultConflictAction);
-//        try{
         ft.transfer(targetFolder);
-//        }catch (Exception e){
-//            System.out.println(e);
-//        }
+
+        assertTrue(checkFileExists("desttestdirectory/filename.txt"));
+
+        cleanTestDirs();
 
     }
 }
