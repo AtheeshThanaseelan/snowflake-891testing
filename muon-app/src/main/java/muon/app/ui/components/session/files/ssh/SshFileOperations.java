@@ -180,7 +180,7 @@ public class SshFileOperations {
 		return false;
 	}
 
-	private String getUniqueName(List<FileInfo> list, String name) {
+	String getUniqueName(List<FileInfo> list, String name) {
 		while (true) {
 			boolean found = false;
 			for (FileInfo f : list) {
