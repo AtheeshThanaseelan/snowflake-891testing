@@ -205,7 +205,7 @@ public final class PasswordStore {
 		}
 	}
 
-	private void savePassword(SessionFolder folder) {
+	void savePassword(SessionFolder folder) {
 		for (SessionInfo info : folder.getItems()) {
 			String password = info.getPassword();
 			if (password != null && password.length() > 0) {

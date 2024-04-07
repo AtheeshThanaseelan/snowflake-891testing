@@ -58,7 +58,7 @@ public class FileTransfer implements Runnable, AutoCloseable {
 		}
 	}
 
-	private void transfer(String targetFolder) throws Exception {
+	void transfer(String targetFolder) throws Exception {
 		System.out.println("Copying to " + targetFolder);
 		List<FileInfoHolder> fileList = new ArrayList<>();
 		List<FileInfo> list = targetFs.list(targetFolder);

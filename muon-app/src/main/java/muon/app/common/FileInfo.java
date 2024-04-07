@@ -44,7 +44,7 @@ public class FileInfo implements Serializable, Comparable<FileInfo> {
 		this.hidden = hidden;
 	}
 
-	private String getUserName() {
+	String getUserName() {
 		try {
 			if (this.extra != null && this.extra.length() > 0) {
 				Matcher matcher = USER_REGEX.matcher(this.extra);
