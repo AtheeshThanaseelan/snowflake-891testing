@@ -124,7 +124,7 @@ public class SshClient2 implements Closeable {
 		sshj.authPublickey(promptUser(), provider);
 	}
 
-	private void authPassoword() throws Exception {
+	public void authPassoword() throws Exception {
 		String user = getUser();
 		char[] password = getPassword();
 		if (user == null || user.length() < 1) {
