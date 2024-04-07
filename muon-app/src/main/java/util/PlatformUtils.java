@@ -147,7 +147,7 @@ public class PlatformUtils {
 		}
 	}
 
-	private static void openFolder2(String folder) {
+	static void openFolder2(String folder) {
 		try {
 			ProcessBuilder builder = new ProcessBuilder();
 			builder.command(Arrays.asList("explorer", folder));
