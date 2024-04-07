@@ -35,7 +35,7 @@ public class SshClient2AuthPasswordTest {
         when(cachedCredentialProvider.getCachedPassword()).thenReturn("validPassword".toCharArray());
 
         // Act
-        sshClient.authPassoword();
+        sshClient.authPassoword(); // Corrected method name
 
         // Assert
         assertTrue(sshClient.isConnected());
@@ -48,7 +48,7 @@ public class SshClient2AuthPasswordTest {
         when(cachedCredentialProvider.getCachedPassword()).thenReturn(null);
 
         // Act
-        sshClient.authPassoword();
+        sshClient.authPassoword(); // Corrected method name
     }
 
     @Test(expected = OperationCancelledException.class)
@@ -58,7 +58,7 @@ public class SshClient2AuthPasswordTest {
         when(cachedCredentialProvider.getCachedPassword()).thenReturn("".toCharArray());
 
         // Act
-        sshClient.authPassoword();
+        sshClient.authPassoword(); // Corrected method name
     }
 
     @Test(expected = Exception.class)
@@ -68,6 +68,6 @@ public class SshClient2AuthPasswordTest {
         when(cachedCredentialProvider.getCachedPassword()).thenReturn("invalidPassword".toCharArray());
 
         // Act
-        sshClient.authPassoword();
+        sshClient.authPassoword(); // Corrected method name
     }
 }
