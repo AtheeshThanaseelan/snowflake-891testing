@@ -191,5 +191,61 @@ public class PasswordStoreTest {
     }
 
     //Mutation TESTS
-    
+    @Test
+    public void testChangeStorePassword_SuccessfulChange() throws Exception {
+        // Test changing the store password successfully
+        PasswordStore passwordStore = PasswordStore.getSharedInstance();
+        assertTrue(passwordStore.changeStorePassword("newPassword".toCharArray()));
+    }
+
+    @Test
+    public void testChangeStorePassword_UnsuccessfulChange() throws Exception {
+        // Test changing the store password unsuccessfully
+        PasswordStore passwordStore = PasswordStore.getSharedInstance();
+        assertFalse(passwordStore.changeStorePassword(null)); // Mutation: Passing null as newPassword
+    }
+
+    @Test
+    public void testChangeStorePassword_NoStoredPasswords() throws Exception {
+        // Test changing store password when there are no stored passwords
+        PasswordStore passwordStore = PasswordStore.getSharedInstance();
+        assertTrue(passwordStore.changeStorePassword("newPassword".toCharArray())); // No mutation
+    }
+
+    @Test
+    public void testSavePassword_SuccessfulSave() throws Exception {
+        // Test saving password successfully
+        PasswordStore passwordStore = PasswordStore.getSharedInstance();
+        SessionFolder folder = new SessionFolder();
+        // SessionInfo session1 = new SessionInfo("alias1", "password1");
+        // SessionInfo session2 = new SessionInfo("alias2", "password2");
+        // folder.addItem(session1);
+        // folder.addItem(session2);
+        SessionInfo session1 = new SessionInfo();
+        session1.setId("alias1");
+        session1.setPassword("password1");
+        SessionInfo session2 = new SessionInfo();
+        session2.setId("alias2");
+        session2.setPassword("password2");
+        folder.getItems().add(session1);
+        folder.getItems().add(session2);
+        passwordStore.savePassword(folder);
+        assertNotNull(passwordStore.getSavedPassword("alias1"));
+        assertNotNull(passwordStore.getSavedPassword("alias2"));
+    }
+
+    @Test
+    public void testSavePassword_EmptyFolder() throws Exception {
+        // Test saving password when the folder is empty
+        PasswordStore passwordStore = PasswordStore.getSharedInstance();
+        SessionFolder folder = new SessionFolder();
+        passwordStore.savePassword(folder); // No mutation
+    }
+
+    @Test
+    public void testSavePassword_NullFolder() throws Exception {
+        // Test saving password with null folder
+        PasswordStore passwordStore = PasswordStore.getSharedInstance();
+        passwordStore.savePassword(null); // Mutation: Passing null as folder
+    }
 }
