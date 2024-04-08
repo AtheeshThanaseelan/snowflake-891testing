@@ -165,4 +165,66 @@ public class PathUtilsTest {
         // Mutation: Swap the conditions in the if statement to always return an incorrect parent path
         assertEquals("/path/to/parent/chil", PathUtils.getParent("/path/to/parent/child"));
     }
+
+    @Test
+    public void testCombine() {
+        // Test case 1: Normal case with Unix separator "/"
+        assertEquals("path1/path2", PathUtils.combine("path1", "path2", "/"));
+        
+        // Test case 2: Normal case with Windows separator "\"
+        assertEquals("path1\\path2", PathUtils.combine("path1", "path2", "\\"));
+        
+        // Test case 3: Empty path2
+        assertEquals("path1/", PathUtils.combine("path1", "", "/"));
+        
+        // Test case 4: Empty path1
+        assertEquals("/path2", PathUtils.combine("", "path2", "/"));
+        
+        // Test case 5: Both paths empty
+        assertEquals("/", PathUtils.combine("", "", "/"));
+        
+        // Test case 6: Paths with trailing separators
+        assertEquals("path1/path2", PathUtils.combine("path1/", "path2/", "/"));
+        
+        // Test case 7: Path2 starts with separator
+        assertEquals("path1/path2", PathUtils.combine("path1", "/path2", "/"));
+        
+        // Test case 8: Path1 ends with separator
+        assertEquals("path1/path2", PathUtils.combine("path1/", "path2", "/"));
+        
+        // Test case 9: Path1 and Path2 both end with separator
+        assertEquals("path1/path2", PathUtils.combine("path1/", "path2/", "/"));
+        
+        // Test case 10: Path1 and Path2 both empty with Windows separator
+        assertEquals("\\", PathUtils.combine("", "", "\\"));
+    }
+
+    @Test
+    public void testCombineMutation() {
+        // Mutation test cases
+        
+        // Mutate separator to empty string
+        assertNotEquals("path1path2", PathUtils.combine("path1", "path2", ""));
+        
+        // Mutate separator to different separator
+        assertNotEquals("path1\\path2", PathUtils.combine("path1", "path2", "/"));
+        
+        // Mutate path2 to null
+        assertNotEquals("path1/", PathUtils.combine("path1", null, "/"));
+        
+        // Mutate path1 to null
+        assertNotEquals("/path2", PathUtils.combine(null, "path2", "/"));
+        
+        // Mutate both paths to null
+        assertNotEquals("/", PathUtils.combine(null, null, "/"));
+        
+        // Mutate path2 to start with separator
+        assertNotEquals("path1path2", PathUtils.combine("path1", "/path2", "/"));
+        
+        // Mutate path1 to end with separator
+        assertNotEquals("path1path2", PathUtils.combine("path1/", "path2", "/"));
+        
+        // Mutate both paths to end with separator
+        assertNotEquals("path1path2", PathUtils.combine("path1/", "path2/", "/"));
+    }
 }
