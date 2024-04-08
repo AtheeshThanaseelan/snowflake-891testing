@@ -15,7 +15,8 @@ public class SshFileOperationsTest {
 
     @Test
     public void testGetUniqueName() {
-        FileInfo f1 = new FileInfo("file1",FileType.File);
+        FileInfo f1 = new FileInfo("file1","./file1",10, FileType.File,
+                1, 0, "","",0,"",false);
         SshFileOperations sfo = new SshFileOperations();
         List<FileInfo> fList = new ArrayList<>();
         fList.add(f1);
@@ -27,8 +28,10 @@ public class SshFileOperationsTest {
     @Test
     public void testGetUniqueName_NoDuplicates() {
         List<FileInfo> fileList = new ArrayList<>();
-        fileList.add(new FileInfo("file1", FileType.File));
-        fileList.add(new FileInfo("file2", FileType.File));
+        fileList.add(new FileInfo("file1","./file1",10, FileType.File,
+                1, 0, "","",0,"",false));
+        fileList.add(new FileInfo("file2","./file2",10, FileType.File,
+                1, 0, "","",0,"",false));
         
         String uniqueName = new SshFileOperations().getUniqueName(fileList, "file3");
         
@@ -38,9 +41,13 @@ public class SshFileOperationsTest {
     @Test
     public void testGetUniqueName_WithDuplicates() {
         List<FileInfo> fileList = new ArrayList<>();
-        fileList.add(new FileInfo("file1", FileType.File));
-        fileList.add(new FileInfo("file2", FileType.File));
-        fileList.add(new FileInfo("Copy of file3", FileType.File)); // Duplicate
+        fileList.add(new FileInfo("file1","./file1",10, FileType.File,
+                1, 0, "","",0,"",false));
+        fileList.add(new FileInfo("file2","./file2",10, FileType.File,
+                1, 0, "","",0,"",false));
+        fileList.add(new FileInfo("Copy of file3","./Copy of file3",10, FileType.File,
+                1, 0, "","",0,"",false));
+
         
         String uniqueName = new SshFileOperations().getUniqueName(fileList, "file3");
         
@@ -59,7 +66,8 @@ public class SshFileOperationsTest {
     @Test
     public void testGetUniqueName_MaxLengthName() {
         String longName = String.join("", Collections.nCopies(250, "a")) + ".txt";
-        List<FileInfo> fileList = Arrays.asList(new FileInfo(longName, FileType.File));
+        List<FileInfo> fileList = Arrays.asList(new FileInfo(longName,"./"+longName,10, FileType.File,
+                1, 0, "","",0,"",false));
         
         String uniqueName = new SshFileOperations().getUniqueName(fileList, longName);
         
@@ -68,7 +76,8 @@ public class SshFileOperationsTest {
 
     @Test
     public void testGetUniqueName_MinLengthName() {
-        List<FileInfo> fileList = Arrays.asList(new FileInfo("a", FileType.File));
+        List<FileInfo> fileList = Arrays.asList(new FileInfo("a","./a",10, FileType.File,
+                1, 0, "","",0,"",false));
         
         String uniqueName = new SshFileOperations().getUniqueName(fileList, "a");
         
@@ -77,7 +86,8 @@ public class SshFileOperationsTest {
 
     @Test
     public void testGetUniqueName_SpecialCharacters() {
-        List<FileInfo> fileList = Arrays.asList(new FileInfo("file&*%#", FileType.File));
+        List<FileInfo> fileList = Arrays.asList(new FileInfo("file&*%#","./file&*%#",10, FileType.File,
+                1, 0, "","",0,"",false));
         
         String uniqueName = new SshFileOperations().getUniqueName(fileList, "file&*%#");
         
