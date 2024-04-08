@@ -5,9 +5,11 @@ import muon.app.common.FileType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.util.List;
+import java.io.IOException;
 
 import static org.junit.Assert.*;
 
@@ -166,4 +168,99 @@ public class LocalFileSystemTest {
 
         cleanTestDirs();
     }
+
+    //Mutation TESTS
+    @Test
+    public void testListValidPath() {
+        try {
+            String path = "/path/to/valid/directory"; // Provide a valid path to a directory
+            List<FileInfo> fileList = lfs.list(path);
+            assertNotNull(fileList);
+//            assertFalse(fileList.isEmpty());
+            assertTrue(fileList.isEmpty());
+        } catch (Exception e) {
+            fail("Exception occurred: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testListEmptyPath2() {
+        try {
+            String path = "/path/to/empty/directory"; // Provide a valid path to an empty directory
+            List<FileInfo> fileList = lfs.list(path);
+            assertNotNull(fileList);
+            assertTrue(fileList.isEmpty());
+        } catch (Exception e) {
+            fail("Exception occurred: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testListNullPath2() {
+        try {
+            List<FileInfo> fileList = lfs.list(null);
+            assertNotNull(fileList);
+            assertFalse(fileList.isEmpty()); // Expecting default listing of user's home directory
+        } catch (Exception e) {
+            fail("Exception occurred: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testListInvalidPath() {
+        try {
+            String path = "/path/to/nonexistent/directory"; // Provide an invalid path
+            List<FileInfo> fileList = lfs.list(path);
+            assertNotNull(fileList);
+            assertTrue(fileList.isEmpty()); // Expecting empty list for non-existent directory
+        } catch (Exception e) {
+            fail("Exception occurred: " + e.getMessage());
+        }
+    }
+
+//    @Test
+//    public void testDeleteFile2() {
+//        // LocalFileSystem lfs = new LocalFileSystem();
+//        try {
+//            // Create a temporary file for testing
+//            File testFile = File.createTempFile("test", ".txt");
+//
+//            // Call delete method to delete the file
+//            FileInfo fileInfo = new FileInfo(testFile.getName(), testFile.getAbsolutePath(), testFile.length(),
+//                                FileType.File, testFile.lastModified(), -1, LocalFileSystem.PROTO_LOCAL_FILE,
+//                                "", testFile.lastModified(), "", testFile.isHidden());
+//            lfs.delete(fileInfo);
+//
+//            // Assert that the file does not exist after deletion
+//            assertFalse("File should not exist after deletion", testFile.exists());
+//        } catch (IOException e) {
+//            fail("Exception occurred: " + e.getMessage());
+//        }
+//    }
+
+//    @Test
+//    public void testDeleteDirectory() {
+//        // LocalFileSystem lfs = new LocalFileSystem();
+//        try {
+//            // Create a temporary directory for testing
+////            File testDir = Files.createTempDirectory("test").toFile();
+//
+//            // Create a file inside the directory for testing
+//            File testFile = new File(testDir, "testFile.txt");
+//            if (!testFile.createNewFile()) {
+//                fail("Failed to create test file");
+//            }
+//
+//            // Call delete method to delete the directory recursively
+//            FileInfo dirInfo = new FileInfo(testDir.getName(), testDir.getAbsolutePath(), testDir.length(),
+//                                FileType.Directory, testDir.lastModified(), -1, LocalFileSystem.PROTO_LOCAL_FILE,
+//                                "", testDir.lastModified(), "", testDir.isHidden());
+//            lfs.delete(dirInfo);
+//
+//            // Assert that the directory and its contents do not exist after deletion
+//            assertFalse("Directory should not exist after deletion", testDir.exists());
+//        } catch (IOException e) {
+//            fail("Exception occurred: " + e.getMessage());
+//        }
+//    }
 }

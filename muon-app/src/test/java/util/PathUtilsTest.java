@@ -146,4 +146,23 @@ public class PathUtilsTest {
         String result = PathUtils.combineUnix("/usr", "bin\\test");
         assertEquals("/usr/bin\\test", result);
     }
+
+    //Mutation Tests
+    @Test
+    public void testMutation() {
+        
+        // Mutation test cases:
+        
+        // Mutation: Change the condition to always return null
+        assertEquals(null, PathUtils.getParent("/"));
+        
+        // Mutation: Change the substring indices to result in an incorrect parent path
+        assertEquals("/path/", PathUtils.getParent("/path/to/parent/child"));
+        
+        // Mutation: Add 1 to the index variable to create an off-by-one error
+        assertEquals("/path/to/par", PathUtils.getParent("/path/to/parent/child"));
+        
+        // Mutation: Swap the conditions in the if statement to always return an incorrect parent path
+        assertEquals("/path/to/parent/chil", PathUtils.getParent("/path/to/parent/child"));
+    }
 }

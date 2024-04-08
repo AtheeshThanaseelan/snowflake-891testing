@@ -22,4 +22,27 @@ public class ArchiveOperationTest {
         assertEquals("test.tar",result);
     }
 
+    //Mutation TESTS
+    @Test
+    public void testIsSingleArchiveMutation() {
+        ArchiveOperation archiveOperation = new ArchiveOperation();
+
+        // Mutant: Change the condition to always return true
+        assertTrue(archiveOperation.isSingleArchive("test.tar.gz"));
+
+        // Mutant: Change the condition to always return false
+        assertFalse(archiveOperation.isSingleArchive("example.zip"));
+    }
+    
+    @Test
+    public void testGetArchiveFileNameMutation() {
+        ArchiveOperation archiveOperation = new ArchiveOperation();
+
+        // Mutant: Change the substring length for .tar.gz extension
+        assertEquals("test", archiveOperation.getArchiveFileName("test.tar.gz"));
+
+        // Mutant: Change the substring length for .zip extension
+        assertEquals("exampl", archiveOperation.getArchiveFileName("example.zip"));
+    }
+
 }
