@@ -35,4 +35,17 @@ public class SshFileOperationsTest {
         assertEquals("file2",uniqueName);
     }
 
+    @Test
+    public void testGetUniqueNameTestPath3() {
+        FileInfo f1 = new FileInfo("file3.bin","./file3.bin",10, FileType.File,
+                1, 0, "","",0,"",false);
+        SshFileOperations sfo = new SshFileOperations();
+        List<FileInfo> fList = new ArrayList<>();
+        fList.add(f1);
+        String uniqueName = sfo.getUniqueName(fList,"file3.txt");
+
+        assertEquals("file3.txt",uniqueName);
+    }
+
+
 }
